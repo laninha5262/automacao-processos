@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automação de Processos | Eficiência Operacional | Icatu Seguros</title>
+<style>
+:root{
+  --navy:#1C2D5E;--navy-l:#243570;--green:#3DB54A;--green-d:#2E9A3E;
+  --white:#FFF;--off:#F4F6FA;--lgray:#E8ECF4;--mgray:#8A94AA;
+  --border:#D0D8EE;--red:#C62828;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Calibri,Arial,sans-serif;background:var(--off);color:var(--navy);min-height:100vh}
+
+/* ── HEADER ── */
+.hdr{background:var(--navy);position:relative;overflow:hidden;padding:34px 48px 30px}
+.hdr::before{content:'';position:absolute;top:-65px;right:-65px;width:270px;height:270px;border-radius:50%;background:var(--green);opacity:.92}
+.hdr-dots{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.13) 1.5px,transparent 1.5px);background-size:26px 26px;pointer-events:none}
+.hdr-content{position:relative;z-index:1}
+.logo{display:flex;align-items:center;gap:7px;margin-bottom:16px}
+.logo-dot{width:9px;height:9px;border-radius:50%;background:var(--green)}
+.logo-txt{font-size:18px;font-weight:800;color:#fff;letter-spacing:.04em}
+.hdr-tag{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--green);text-transform:uppercase;margin-bottom:7px}
+.hdr h1{font-size:25px;font-weight:700;color:#fff;line-height:1.25;margin-bottom:5px}
+.hdr h1 span{color:var(--green)}
+.hdr p{font-size:12px;color:rgba(255,255,255,.7);max-width:580px;line-height:1.6}
+.hdr-bar{position:absolute;bottom:0;left:0;width:100%;height:4px;background:var(--green)}
+
+/* ── MAIN ── */
+.main{max-width:880px;margin:0 auto;padding:32px 20px 60px}
+
+/* ── SECTIONS ── */
+.sec{margin-bottom:28px}
+.sec-hdr{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+.sec-num{width:40px;height:40px;border-radius:8px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex-shrink:0}
+.sec-num.g{background:var(--green)}
+.sec-title h2{font-size:17px;font-weight:700;color:var(--navy)}
+.sec-title p{font-size:11.5px;color:var(--mgray);margin-top:2px}
+.sec-line{height:3px;width:40px;background:var(--green);border-radius:2px;margin-left:54px;margin-bottom:18px}
+
+/* ── CARDS ── */
+.card{background:var(--white);border-radius:12px;padding:20px 22px;margin-bottom:16px;box-shadow:0 2px 10px rgba(28,45,94,.07);border-left:4px solid var(--navy)}
+.card.g{border-left-color:var(--green)}
+.ctitle{font-size:11.5px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.ctitle::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0}
+
+/* ── FIELDS ── */
+.fg{display:grid;grid-template-columns:1fr;gap:13px}
+.fg2{grid-template-columns:1fr 1fr}
+.fg3{grid-template-columns:1fr 1fr 1fr}
+@media(max-width:600px){.fg2,.fg3{grid-template-columns:1fr}}
+.f{display:flex;flex-direction:column;gap:5px}
+.f label{font-size:12px;font-weight:600;color:var(--navy)}
+.f label .r{color:var(--green);font-size:13px}
+.f label .h{font-weight:400;color:var(--mgray);font-size:11px;margin-left:3px}
+.f input,.f select,.f textarea{border:1.5px solid var(--border);border-radius:8px;padding:9px 13px;font-size:13px;color:var(--navy);font-family:inherit;background:#fff;transition:border-color .15s,box-shadow .15s;outline:none}
+.f textarea{resize:vertical;min-height:80px}
+.f input:focus,.f select:focus,.f textarea:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(28,45,94,.08)}
+.f input::placeholder,.f textarea::placeholder{color:#B5BECE}
+.f select{appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A94AA' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+.f input.err,.f select.err,.f textarea.err{border-color:var(--red)!important}
+
+/* ── TIPO SELECTOR ── */
+.tipo-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:4px}
+@media(max-width:520px){.tipo-grid{grid-template-columns:1fr}}
+.tipo-opt{border:2px solid var(--border);border-radius:14px;padding:26px 20px 22px;cursor:pointer;transition:all .22s;background:#fff;text-align:center;position:relative;overflow:hidden}
+.tipo-opt::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:4px;background:var(--border);transition:background .22s}
+.tipo-opt:hover{border-color:var(--navy);box-shadow:0 6px 22px rgba(28,45,94,.12);transform:translateY(-3px)}
+.tipo-opt:hover::after{background:var(--navy)}
+.tipo-opt.sel-rpa{border-color:var(--green);background:rgba(61,181,74,.04);box-shadow:0 6px 22px rgba(61,181,74,.2);transform:translateY(-3px)}
+.tipo-opt.sel-rpa::after{background:var(--green)}
+.tipo-opt.sel-infra{border-color:var(--navy);background:rgba(28,45,94,.04);box-shadow:0 6px 22px rgba(28,45,94,.15);transform:translateY(-3px)}
+.tipo-opt.sel-infra::after{background:var(--navy)}
+.tipo-badge{position:absolute;top:12px;right:12px;width:22px;height:22px;border-radius:50%;color:#fff;font-size:11px;font-weight:700;display:none;align-items:center;justify-content:center}
+.tipo-opt.sel-rpa .tipo-badge{display:flex;background:var(--green)}
+.tipo-opt.sel-infra .tipo-badge{display:flex;background:var(--navy)}
+.tipo-icon{font-size:36px;margin-bottom:12px;line-height:1}
+.tipo-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.tipo-desc{font-size:11.5px;color:var(--mgray);line-height:1.55}
+
+/* ── TOGGLES ── */
+.tgroup{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.ti{display:flex;align-items:center;gap:7px;background:var(--off);border:1.5px solid var(--border);border-radius:20px;padding:6px 14px;cursor:pointer;font-size:12px;font-weight:500;transition:all .15s;user-select:none;-webkit-user-select:none}
+.ti.ag{background:rgba(61,181,74,.1);border-color:var(--green);color:var(--navy)}
+.ti.an{background:rgba(28,45,94,.1);border-color:var(--navy);color:var(--navy)}
+.tdot{width:13px;height:13px;border-radius:50%;border:1.5px solid var(--mgray);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;transition:all .15s}
+.ti.ag .tdot{background:var(--green);border-color:var(--green);color:#fff}
+.ti.ag .tdot::after{content:'✓'}
+.ti.an .tdot{background:var(--navy);border-color:var(--navy);color:#fff}
+.ti.an .tdot::after{content:'●';font-size:7px}
+
+/* ── INFO BOX ── */
+.ibox{background:rgba(61,181,74,.08);border:1px solid rgba(61,181,74,.3);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--navy);line-height:1.6;margin-bottom:16px;display:flex;gap:9px;align-items:flex-start}
+
+/* ── SYSTEM TABLE ── */
+.sys-hdr{display:grid;grid-template-columns:2fr 1.5fr 1fr 1fr 1fr 36px;gap:8px;font-size:11px;font-weight:600;color:var(--mgray);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;padding:0 2px}
+.sys-row{display:grid;grid-template-columns:2fr 1.5fr 1fr 1fr 1fr 36px;gap:8px;align-items:center;margin-bottom:8px}
+.bico{width:34px;height:34px;border-radius:7px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;background:rgba(200,30,30,.08);color:var(--red);transition:background .15s}
+.bico:hover{background:rgba(200,30,30,.16)}
+
+/* ── REVEAL ── */
+.reveal{display:none}
+.reveal.open{display:block;animation:slideDown .38s ease}
+@keyframes slideDown{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* ── SUBMIT ── */
+.submit-area{background:var(--white);border-radius:12px;padding:28px 24px;box-shadow:0 2px 10px rgba(28,45,94,.07);border:2px solid var(--green);margin-top:8px;text-align:center}
+.submit-area h3{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.submit-area p{font-size:12.5px;color:var(--mgray);margin-bottom:20px;line-height:1.6}
+.btn-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{padding:11px 28px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;border:none;transition:all .15s;font-family:inherit;display:inline-flex;align-items:center;gap:7px}
+.btn-p{background:var(--navy);color:#fff}
+.btn-p:hover{background:var(--navy-l);transform:translateY(-1px)}
+.btn-s{background:#fff;color:var(--navy);border:1.5px solid var(--border)}
+.btn-s:hover{border-color:var(--navy)}
+.btn-g{background:var(--green);color:#fff}
+.btn-g:hover{background:var(--green-d);transform:translateY(-1px)}
+
+/* ── SUCCESS ── */
+#success-banner{display:none;background:var(--white);border-radius:12px;padding:36px 28px;box-shadow:0 2px 12px rgba(28,45,94,.08);border:2px solid var(--green);margin-top:24px}
+.suc-icon{width:60px;height:60px;border-radius:50%;background:rgba(61,181,74,.12);border:3px solid var(--green);display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 16px}
+#success-banner h2{font-size:20px;color:var(--navy);margin-bottom:8px;text-align:center}
+#success-banner p{font-size:12.5px;color:var(--mgray);line-height:1.6;text-align:center;max-width:480px;margin:0 auto 22px}
+.steps-box{background:var(--off);border-radius:10px;padding:20px 22px;max-width:520px;margin:0 auto 22px;text-align:left}
+.steps-box .stitle{font-size:11px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.steps-box .stitle::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block}
+.step-item{display:flex;gap:11px;align-items:flex-start;margin-bottom:11px}
+.step-item:last-child{margin-bottom:0}
+.step-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
+.step-num.nb{background:var(--navy)}
+.step-num.gb{background:var(--green)}
+.step-item span{font-size:12.5px;color:var(--navy);line-height:1.5;padding-top:3px}
+
+/* ── MISC ── */
+.rnote{font-size:11px;color:var(--mgray);margin-bottom:18px}
+.rnote span{color:var(--green);font-weight:700}
+.footer{background:var(--navy);color:rgba(255,255,255,.6);text-align:center;padding:14px 24px;font-size:11px;border-top:3px solid var(--green)}
+.footer strong{color:var(--green)}
+@media print{.hdr-dots,.footer,#success-banner,.btn-row,.submit-area{display:none!important}.main{padding:0}.card{box-shadow:none;page-break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<div class="hdr">
+  <div class="hdr-dots"></div>
+  <div class="hdr-content">
+    <div class="logo"><div class="logo-dot"></div><div class="logo-txt">ICATU</div></div>
+    <div class="hdr-tag">Eficiência Operacional · Automação de Processos</div>
+    <h1><span>Automação de Processos</span></h1>
+    <p>Solicitação de automação de processos, RPAs e integrações entre sistemas. Escolha abaixo se é um novo processo (que será detalhado em formulário) ou uma demanda em automação já existente (manutenção, ajuste, dúvida).</p>
+  </div>
+  <div class="hdr-bar"></div>
+</div>
+
+<div class="main">
+  <p class="rnote"><span>*</span> Campos obrigatórios</p>
+
+  
+  <!-- ════════════════════════════════════
+       SELETOR DE FLUXO — Novo Processo ou Processo Existente
+  ════════════════════════════════════ -->
+  <div class="sec" id="card-fluxo">
+    <div class="sec-hdr">
+      <div class="sec-num g">00</div>
+      <div class="sec-title">
+        <h2>Tipo de Solicitação</h2>
+        <p>Esta solicitação é sobre um novo processo ou um já existente?</p>
+      </div>
+    </div>
+    <div class="sec-line"></div>
+
+    <div class="card">
+      <div class="ctitle">Selecione uma opção <span style="color:var(--green);font-size:13px">*</span></div>
+      <p style="font-size:12px;color:var(--mgray);margin-bottom:18px">
+        A escolha define o fluxo de preenchimento.
+      </p>
+      <div class="tipo-grid">
+
+        <div class="tipo-opt" id="opt-novo" onclick="selectFluxo('novo')">
+          <div class="tipo-badge">✓</div>
+          <div class="tipo-icon">✨</div>
+          <div class="tipo-title">Novo Processo de Automação</div>
+          <div class="tipo-desc">Processo ainda não automatizado. Será necessário detalhar abaixo: processo, sistemas, volumetria e periodicidade.</div>
+        </div>
+
+        <div class="tipo-opt" id="opt-existente" onclick="selectFluxo('existente')">
+          <div class="tipo-badge">✓</div>
+          <div class="tipo-icon">🔧</div>
+          <div class="tipo-title">Processo Já Existente</div>
+          <div class="tipo-desc">Manutenção, ajuste ou dúvida em automação que já roda. Direto para o Service Desk — sem formulário detalhado.</div>
+        </div>
+
+      </div>
+      <input type="hidden" id="f-fluxo" value=""/>
+      <input type="hidden" id="f-tipo-sol" value="rpa"/>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════
+       FLUXO NOVO — Identificação + Bloco RPA detalhado
+       (só aparece após selecionar "Novo Processo")
+  ════════════════════════════════════ -->
+  <div id="fluxo-novo" class="reveal">
+<!-- ════════════════════════════════════
+       BLOCO INICIAL — sempre visível
+  ════════════════════════════════════ -->
+  <div class="sec">
+    <div class="sec-hdr">
+      <div class="sec-num">01</div>
+      <div class="sec-title">
+        <h2>Identificação</h2>
+        <p>Quem solicita e qual o tipo de atendimento</p>
+      </div>
+    </div>
+    <div class="sec-line"></div>
+
+    <!-- Dados do Solicitante -->
+    <div class="card">
+      <div class="ctitle">Solicitante</div>
+      <div class="fg fg2">
+        <div class="f">
+          <label>Área Solicitante <span class="r">*</span></label>
+          <input type="text" id="f-area" placeholder="Ex: Manutenção Vida, Sinistros, Previdência..."/>
+        </div>
+        <div class="f">
+          <label>Nome do Responsável <span class="r">*</span></label>
+          <input type="text" id="f-resp" placeholder="Nome completo"/>
+        </div>
+        <div class="f">
+          <label>E-mail <span class="r">*</span></label>
+          <input type="email" id="f-email" placeholder="email@icatuseguros.com.br"/>
+        </div>
+        <div class="f">
+          <label>Data da Solicitação</label>
+          <div id="f-data-display" style="border:1.5px solid var(--border);border-radius:8px;padding:9px 13px;font-size:13px;color:var(--navy);background:var(--off);font-weight:600;cursor:default"></div>
+          <input type="hidden" id="f-data"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- Analista Responsável pelo acompanhamento -->
+    <div class="card g">
+      <div class="ctitle">Analista Responsável <span style="color:var(--green);font-size:13px">*</span></div>
+      <p style="font-size:12px;color:var(--mgray);margin-bottom:14px">
+        Quem da Eficiência Operacional acompanhará o desenvolvimento desta automação.
+      </p>
+      <div class="fg fg2">
+        <div class="f">
+          <label>Nome do Analista <span class="r">*</span></label>
+          <input type="text" id="f-analista-nome" placeholder="Nome completo do analista"/>
+        </div>
+        <div class="f">
+          <label>E-mail do Analista <span class="r">*</span></label>
+          <input type="email" id="f-analista-email" placeholder="analista@icatuseguros.com.br"/>
+        </div>
+      </div>
+    </div>
+
+    </div>
+  <!-- /bloco inicial -->
+
+  
+
+  <!-- ════════════════════════════════════
+       BLOCO RPA — Automação de Processos
+  ════════════════════════════════════ -->
+  <div id="bloco-rpa" class="reveal open">
+
+    <!-- SEÇÃO 2 — PROCESSO -->
+    <div class="sec">
+      <div class="sec-hdr">
+        <div class="sec-num g">02</div>
+        <div class="sec-title"><h2>Processo</h2><p>Detalhes do fluxo que será automatizado</p></div>
+      </div>
+      <div class="sec-line"></div>
+
+      <div class="card g">
+        <div class="ctitle">Identificação do Processo</div>
+        <div class="fg">
+          <div class="fg fg2">
+            <div class="f">
+              <label>Nome do Processo <span class="r">*</span></label>
+              <input type="text" id="f-proc-nome" placeholder="Ex: Reagendamento de Cobrança, Emissão de Apólice..."/>
+            </div>
+            <div class="f">
+              <label>Linha de Negócio</label>
+              <select id="f-linha">
+                <option value="">Selecione...</option>
+                <option>Vida</option>
+                <option>Previdência</option>
+                <option>Capitalização</option>
+                <option>Outra</option>
+              </select>
+            </div>
+          </div>
+          <div class="f">
+            <label>Breve Descrição <span class="r">*</span> <span class="h">— objetivo geral do fluxo</span></label>
+            <textarea id="f-proc-desc" placeholder="Ex: Processo responsável por reagendar cobranças de clientes com parcelas em aberto, atualizando a data de vencimento no SISVIDA."></textarea>
+          </div>
+          <div class="fg fg2">
+            <div class="f">
+              <label>Ponto de Início <span class="r">*</span> <span class="h">— o que desencadeia?</span></label>
+              <input type="text" id="f-inicio" placeholder="Ex: Ticket no Zendesk, planilha em pasta, agendamento..."/>
+            </div>
+            <div class="f">
+              <label>Ponto de Fim <span class="r">*</span> <span class="h">— resultado esperado</span></label>
+              <input type="text" id="f-fim" placeholder="Ex: Ticket resolvido, planilha preenchida, e-mail enviado..."/>
+            </div>
+          </div>
+          <div class="fg fg2">
+            <div class="f">
+              <label>Prioridade Percebida</label>
+              <select id="f-prior">
+                <option value="">Selecione...</option>
+                <option>Alta — Impacto direto no cliente</option>
+                <option>Média — Melhoria operacional</option>
+                <option>Baixa — Nice to have</option>
+              </select>
+            </div>
+            <div class="f"></div>
+          </div>
+          <div class="f">
+            <label>Regras de Negócio <span class="h">— exceções, condições e validações importantes</span></label>
+            <textarea id="f-regras" placeholder="Ex: Se prazo < 0 dias, não reagendar. Se débito em conta, verificar prazo mínimo de 2 dias úteis..."></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 3 — SISTEMAS -->
+    <div class="sec">
+      <div class="sec-hdr">
+        <div class="sec-num">03</div>
+        <div class="sec-title"><h2>Sistemas Envolvidos</h2><p>Ferramentas, aplicações e integrações necessárias</p></div>
+      </div>
+      <div class="sec-line"></div>
+
+      <div class="card">
+        <div class="ctitle">Sistemas e Aplicações</div>
+        <div class="sys-hdr">
+          <span>Nome do Sistema <span style="color:var(--green)">*</span></span>
+          <span>Perfil de Acesso / Gestão de Identidade</span>
+          <span>Tipo</span>
+          <span>Navegador</span>
+          <span>Exige Login?</span>
+          <span></span>
+        </div>
+        <div id="sys-cont"></div>
+        <button class="btn btn-s" onclick="addSys()" style="margin-top:6px;font-size:12px;padding:7px 14px">+ Adicionar sistema</button>
+      </div>
+
+      <div class="card g">
+        <div class="ctitle">Insumo — Fonte de Dados</div>
+        <div class="fg fg2">
+          <div class="f">
+            <label>Tipo de Insumo <span class="r">*</span></label>
+            <select id="f-ins-tipo">
+              <option value="">Selecione...</option>
+              <option>Planilha Excel (.xlsx)</option>
+              <option>Arquivo CSV</option>
+              <option>Relatório exportado de sistema</option>
+              <option>Fila/Ticket (ex: Zendesk)</option>
+              <option>API / Webservice</option>
+              <option>E-mail</option>
+              <option>Não há insumo externo</option>
+              <option>Outro</option>
+            </select>
+          </div>
+          <div class="f">
+            <label>Local do Insumo</label>
+            <input type="text" id="f-ins-local" placeholder="Ex: SharePoint > Pasta X, servidor, e-mail..."/>
+          </div>
+        </div>
+        <div class="f" style="margin-top:13px">
+          <label>Descrição do Insumo <span class="h">— campos disponíveis, formato, exemplo</span></label>
+          <textarea id="f-ins-desc" placeholder="Ex: Planilha com colunas: ID Ticket, CPF, Certificado, Forma de Pagamento. Gerada diariamente às 08h pelo Zendesk Explore."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 4 — VOLUMETRIA -->
+    <div class="sec">
+      <div class="sec-hdr">
+        <div class="sec-num g">04</div>
+        <div class="sec-title"><h2>Volumetria</h2><p>Quantidade de execuções e itens processados</p></div>
+      </div>
+      <div class="sec-line"></div>
+
+      <div class="card g">
+        <div class="ctitle">Quantidade de Execuções</div>
+        <div class="fg fg3">
+          <div class="f"><label>Volume Médio Diário <span class="r">*</span></label><input type="text" id="f-vol-med" placeholder="Ex: 35 tickets/dia"/></div>
+          <div class="f"><label>Volume em Pico <span class="h">— máximo</span></label><input type="text" id="f-vol-pico" placeholder="Ex: 80 tickets (2ª feira)"/></div>
+          <div class="f"><label>Volume Mensal Estimado</label><input type="text" id="f-vol-mes" placeholder="Ex: ~700 itens/mês"/></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="ctitle">Tempo Manual Atual</div>
+        <div class="ibox">
+          <span style="font-size:16px;flex-shrink:0">⏱</span>
+          <span>Informe o tempo que a equipe leva hoje para executar manualmente. Isso nos ajuda a calcular o ganho real da automação.</span>
+        </div>
+        <div class="fg fg2">
+          <div class="f"><label>Tempo Médio por Item <span class="r">*</span></label><input type="text" id="f-t-item" placeholder="Ex: 5 minutos por ticket"/></div>
+          <div class="f"><label>Tempo Total Diário Estimado</label><input type="text" id="f-t-total" placeholder="Ex: 3 horas/dia"/></div>
+          <div class="f"><label>Colaboradores Envolvidos</label><input type="text" id="f-colabs" placeholder="Ex: 2 analistas + 1 supervisor"/></div>
+          <div class="f">
+            <label>Impacto se Não Executado</label>
+            <select id="f-impacto">
+              <option value="">Selecione...</option>
+              <option>Crítico — SLA de cliente impactado</option>
+              <option>Alto — Atraso significativo</option>
+              <option>Médio — Retrabalho interno</option>
+              <option>Baixo — Impacto mínimo</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 5 — PERIODICIDADE -->
+    <div class="sec">
+      <div class="sec-hdr">
+        <div class="sec-num">05</div>
+        <div class="sec-title"><h2>Periodicidade e Execução</h2><p>Quando e como o processo deve ser executado</p></div>
+      </div>
+      <div class="sec-line"></div>
+
+      <div class="card g">
+        <div class="ctitle">Frequência</div>
+        <div class="f">
+          <label>Periodicidade <span class="r">*</span></label>
+          <div class="tgroup" id="rg-periodo">
+            <div class="ti an" onclick="selRad('rg-periodo',this,'f-periodo')"><span class="tdot"></span>Diária</div>
+            <div class="ti" onclick="selRad('rg-periodo',this,'f-periodo')"><span class="tdot"></span>Semanal</div>
+            <div class="ti" onclick="selRad('rg-periodo',this,'f-periodo')"><span class="tdot"></span>Quinzenal</div>
+            <div class="ti" onclick="selRad('rg-periodo',this,'f-periodo')"><span class="tdot"></span>Mensal</div>
+            <div class="ti" onclick="selRad('rg-periodo',this,'f-periodo')"><span class="tdot"></span>Sob demanda</div>
+            <div class="ti" onclick="selRad('rg-periodo',this,'f-periodo')"><span class="tdot"></span>Múltiplas vezes/dia</div>
+          </div>
+          <input type="hidden" id="f-periodo" value="Diária"/>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="ctitle">Dias e Horários</div>
+        <div class="fg">
+          <div class="f">
+            <label>Dias de Execução</label>
+            <div class="tgroup">
+              <div class="ti" onclick="togCk(this,'Segunda','f-dias')"><span class="tdot"></span>Segunda</div>
+              <div class="ti" onclick="togCk(this,'Terça','f-dias')"><span class="tdot"></span>Terça</div>
+              <div class="ti" onclick="togCk(this,'Quarta','f-dias')"><span class="tdot"></span>Quarta</div>
+              <div class="ti" onclick="togCk(this,'Quinta','f-dias')"><span class="tdot"></span>Quinta</div>
+              <div class="ti" onclick="togCk(this,'Sexta','f-dias')"><span class="tdot"></span>Sexta</div>
+              <div class="ti" onclick="togCk(this,'Sábado','f-dias')"><span class="tdot"></span>Sábado</div>
+              <div class="ti" onclick="togCk(this,'Domingo','f-dias')"><span class="tdot"></span>Domingo</div>
+              <div class="ti" onclick="togCk(this,'Todos dias úteis','f-dias')"><span class="tdot"></span>Todos dias úteis</div>
+            </div>
+            <input type="hidden" id="f-dias" value=""/>
+          </div>
+          <div class="fg fg2">
+            <div class="f"><label>Horário de Início Preferencial</label><input type="time" id="f-hora" value="08:00"/></div>
+            <div class="f"><label>Janela de Execução <span class="h">— prazo para concluir</span></label><input type="text" id="f-janela" placeholder="Ex: Até 09h, até fim do expediente..."/></div>
+          </div>
+          <div class="f">
+            <label>GAP mínimo entre execuções <span class="h">— intervalo obrigatório entre rodadas</span></label>
+            <input type="text" id="f-gap" placeholder="Ex: Mínimo 30 min entre rodadas, ou não aplicável"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="ctitle">Observações</div>
+        <div class="fg">
+          <div class="f">
+            <label>Observações Adicionais / Pontos de Atenção</label>
+            <textarea id="f-obs" placeholder="Informações que a equipe de automação deve saber. Ex: sistema instável às 12h, arquivo disponível somente após 08h30..."></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTÃO ENVIAR -->
+    <div class="submit-area">
+      <h3>Pronto para enviar?</h3>
+      <p>Ao confirmar, o arquivo <strong>.CSV</strong> com todas as informações será baixado automaticamente e a <strong>RS (Requisição de Serviço)</strong> será aberta para você registrar e anexar a solicitação.</p>
+      <div class="btn-row">
+        <button class="btn btn-s" onclick="downloadCsv()">⬇ Baixar .CSV</button>
+        <button class="btn btn-g" onclick="submitForm()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Confirmar e Abrir RS
+        </button>
+      </div>
+    </div>
+
+    <!-- BANNER SUCESSO -->
+    <div id="success-banner">
+      <div class="suc-icon">✓</div>
+      <h2>Formulário enviado com sucesso!</h2>
+      <p>O arquivo <strong>.CSV</strong> foi baixado e a <strong>RS (Requisição de Serviço)</strong> foi aberta em nova aba. Siga os passos abaixo para concluir o registro.</p>
+      <div class="steps-box">
+        <div class="stitle">Próximos passos na RS</div>
+        <div class="step-item"><div class="step-num nb">1</div><span>A RS foi aberta automaticamente. Se não abriu, clique no botão abaixo.</span></div>
+        <div class="step-item"><div class="step-num nb">2</div><span>Preencha os campos de identificação da solicitação na RS.</span></div>
+        <div class="step-item"><div class="step-num gb">3</div><span><strong>Anexe o arquivo .CSV</strong> que foi baixado neste formulário.</span></div>
+        <div class="step-item"><div class="step-num nb">4</div><span>Confirme e envie. A equipe de <strong>Eficiência Operacional</strong> receberá e dará continuidade.</span></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-s" onclick="downloadCsv()">⬇ Baixar .CSV novamente</button>
+        <button class="btn btn-p" onclick="openVenco()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Abrir RS novamente
+        </button>
+        <button class="btn btn-g" onclick="resetForm()">+ Novo formulário</button>
+      </div>
+      <div style="margin-top:16px;font-size:11px;color:var(--mgray);text-align:center">
+        Dúvidas? <strong style="color:var(--navy)">grupoeficienciaoperacional@icatuseguros.com.br</strong>
+      </div>
+    </div>
+
+  </div>
+  <!-- /bloco-rpa -->
+  </div>
+  <!-- /fluxo-novo -->
+
+</div><!-- /main -->
+
+<div class="footer">
+  <strong>Eficiência Operacional — Icatu Seguros</strong> &nbsp;·&nbsp;
+  grupoeficienciaoperacional@icatuseguros.com.br &nbsp;·&nbsp;
+  Eficiência Operacional v2.0
+</div>
+
+<script>
+// ── STATE ──
+let selectedTipo = '';  // definido em selectFluxo()
+let systems = [];
+const checks = {};
+const VENCO = 'https://servicedesk.icatuseguros.com.br/service_desk/request_insert_1.asp?SessionUserId=17785&SessionId=S7K9P6S0O7I2P2H6F6G4U7O5T8E7C3';
+const RS_URL = 'https://servicedesk.icatuseguros.com.br/service_desk/request_insert_1.asp?SessionUserId=17785&SessionId=S7K9P6S0O7I2P2H6F6G4U7O5T8E7C3';
+
+
+// ── SELETOR DE FLUXO (Novo Processo / Processo Existente) ──
+function selectFluxo(fluxo){
+  // limpa estados visuais
+  document.getElementById('opt-novo').classList.remove('sel-rpa','sel-infra');
+  document.getElementById('opt-existente').classList.remove('sel-rpa','sel-infra');
+
+  const fluxoNovo = document.getElementById('fluxo-novo');
+
+  if(fluxo === 'novo'){
+    // mostra fluxo detalhado
+    document.getElementById('opt-novo').classList.add('sel-rpa');
+    document.getElementById('f-fluxo').value = 'novo';
+    selectedTipo = 'rpa';
+    document.getElementById('f-tipo-sol').value = 'rpa';
+    fluxoNovo.classList.add('open');
+    setTimeout(function(){
+      fluxoNovo.scrollIntoView({behavior:'smooth', block:'start'});
+    }, 80);
+
+  } else if(fluxo === 'existente'){
+    // marca visualmente e direciona direto para o Service Desk
+    document.getElementById('opt-existente').classList.add('sel-infra');
+    document.getElementById('f-fluxo').value = 'existente';
+    selectedTipo = 'existente';
+    // esconde fluxo detalhado (caso usuário tenha alternado)
+    fluxoNovo.classList.remove('open');
+    // abre o Service Desk em nova aba
+    setTimeout(function(){
+      window.open(RS_URL, '_blank');
+    }, 250);
+  }
+}
+
+// Mantém selectTipo como função neutra para compatibilidade com chamadas residuais
+function selectTipo(tipo){
+  return;
+}
+
+// ── SYSTEMS ──
+function addSys(data){
+  const id = Date.now() + Math.random();
+  systems.push({id, nome:'', perfil:'', tipo:'', browser:'', login:'', ...(data||{})});
+  renderSys();
+}
+function removeSys(id){
+  systems = systems.filter(s => s.id !== id);
+  renderSys();
+}
+function renderSys(){
+  const c = document.getElementById('sys-cont');
+  if(!systems.length){ c.innerHTML=''; return; }
+  c.innerHTML = systems.map(s=>`
+    <div class="sys-row">
+      <div class="f"><input type="text" placeholder="Ex: SISVIDA, Zendesk... *" value="${s.nome}" onchange="updSys(${s.id},'nome',this.value)" style="border-color:${s.nome?'var(--border)':'var(--border)'}"/></div>
+      <div class="f"><input type="text" placeholder="Ex: Administrador, Leitura..." value="${s.perfil}" onchange="updSys(${s.id},'perfil',this.value)"/></div>
+      <div class="f"><select onchange="updSys(${s.id},'tipo',this.value)">
+        <option value="">Tipo...</option>
+        <option ${s.tipo==='Web'?'selected':''}>Web</option>
+        <option ${s.tipo==='Desktop'?'selected':''}>Desktop</option>
+        <option ${s.tipo==='API'?'selected':''}>API</option>
+        <option ${s.tipo==='Excel/Office'?'selected':''}>Excel/Office</option>
+        <option ${s.tipo==='Outro'?'selected':''}>Outro</option>
+      </select></div>
+      <div class="f"><select onchange="updSys(${s.id},'browser',this.value)">
+        <option value="">N/A</option>
+        <option ${s.browser==='Chrome'?'selected':''}>Chrome</option>
+        <option ${s.browser==='Edge'?'selected':''}>Edge</option>
+        <option ${s.browser==='Firefox'?'selected':''}>Firefox</option>
+        <option ${s.browser==='IE'?'selected':''}>IE</option>
+      </select></div>
+      <div class="f"><select onchange="updSys(${s.id},'login',this.value)">
+        <option value="">—</option>
+        <option ${s.login==='Sim'?'selected':''}>Sim</option>
+        <option ${s.login==='Não'?'selected':''}>Não</option>
+        <option ${s.login==='SSO'?'selected':''}>SSO</option>
+      </select></div>
+      <button class="bico" onclick="removeSys(${s.id})">✕</button>
+    </div>`).join('');
+}
+function updSys(id, field, val){
+  const s = systems.find(x => x.id === id);
+  if(s) s[field] = val;
+}
+
+// ── RADIO ──
+function selRad(grpId, el, hidId){
+  document.querySelectorAll(`#${grpId} .ti`).forEach(t => t.classList.remove('an'));
+  el.classList.add('an');
+  document.getElementById(hidId).value = el.textContent.trim();
+}
+
+// ── CHECKBOX ──
+function togCk(el, val, hidId){
+  if(!checks[hidId]) checks[hidId] = [];
+  if(el.classList.contains('ag')){
+    el.classList.remove('ag');
+    checks[hidId] = checks[hidId].filter(v => v !== val);
+  } else {
+    el.classList.add('ag');
+    if(!checks[hidId].includes(val)) checks[hidId].push(val);
+  }
+  document.getElementById(hidId).value = checks[hidId].join(', ');
+}
+
+// ── VALUE HELPER ──
+function v(id){
+  const e = document.getElementById(id);
+  if(!e) return '—';
+  const val = e.value !== undefined ? e.value.trim() : e.textContent.trim();
+  return val || '—';
+}
+
+// ── VALIDATION ──
+function validate(){
+  // Bloqueia envio se o usuário não tiver escolhido 'Novo Processo'
+  // (fluxo 'existente' já redireciona pro Service Desk e não usa este validate)
+  if(document.getElementById('f-fluxo').value !== 'novo'){
+    alert('Selecione "Novo Processo de Automação" para preencher o formulário.');
+    return false;
+  }
+  if(!selectedTipo){
+    document.getElementById('card-tipo').scrollIntoView({behavior:'smooth', block:'center'});
+    alert('Por favor selecione o Tipo de Solicitação antes de continuar.');
+    return false;
+  }
+  if(selectedTipo === 'infra') return false;
+
+  // Validate required system names
+  let sysOk = true;
+  systems.forEach(s => {
+    if(!s.nome || !s.nome.trim()){
+      sysOk = false;
+    }
+  });
+  if(!sysOk){
+    alert('Por favor preencha o Nome do Sistema para todos os sistemas adicionados (*).');
+    document.getElementById('sys-cont').scrollIntoView({behavior:'smooth', block:'center'});
+    return false;
+  }
+
+  const req = ['f-area','f-resp','f-email','f-analista-nome','f-analista-email','f-proc-nome','f-proc-desc','f-inicio','f-fim','f-ins-tipo','f-vol-med','f-t-item'];
+  let ok = true;
+  let firstErr = null;
+  req.forEach(id => {
+    const el = document.getElementById(id);
+    if(el && !el.value.trim()){
+      el.classList.add('err');
+      el.addEventListener('input', ()=> el.classList.remove('err'), {once:true});
+      if(!firstErr) firstErr = el;
+      ok = false;
+    }
+  });
+  if(!ok){
+    firstErr.scrollIntoView({behavior:'smooth', block:'center'});
+    alert('Por favor preencha todos os campos obrigatórios (*).');
+  }
+  return ok;
+}
+
+// ── DOWNLOAD CSV ──
+function downloadCsv(){
+  function csv(val){
+    const s = String(val||'').replace(/\r?\n/g,' ').trim();
+    return '"' + s.replace(/"/g,'""') + '"';
+  }
+
+  const sysNomes   = systems.map(s=>s.nome||'').filter(Boolean).join(' | ') || '—';
+  const sysPerfis  = systems.map(s=>s.perfil||'—').join(' | ') || '—';
+  const sysTipos   = systems.map(s=>s.tipo||'').filter(Boolean).join(' | ') || '—';
+  const sysBrowser = systems.map(s=>s.browser||'N/A').join(' | ') || '—';
+  const sysLogin   = systems.map(s=>s.login||'').filter(Boolean).join(' | ') || '—';
+
+  const isoDate = new Date().toISOString().slice(0,10);
+
+  const header = [
+    'Data_Solicitacao','Tipo_Solicitacao','Area_Solicitante','Responsavel','Email','Analista_Responsavel','Email_Analista',
+    'Linha_Negocio','Prioridade','Nome_Processo','Descricao',
+    'Ponto_Inicio','Ponto_Fim','Regras_Negocio',
+    'Sistemas_Nomes','Sistemas_Perfis','Sistemas_Tipos','Sistemas_Navegadores','Sistemas_Login',
+    'Tipo_Insumo','Local_Insumo','Descricao_Insumo',
+    'Volume_Medio_Diario','Volume_Pico','Volume_Mensal',
+    'Tempo_Por_Item','Tempo_Total_Diario','Colaboradores','Impacto_Nao_Execucao',
+    'Periodicidade','Dias_Execucao','Horario_Inicio','Janela_Execucao',
+    'GAP_Execucoes','Observacoes'
+  ].join(';');
+
+  const dataRow = [
+    csv(isoDate),
+    csv('Automação de Processos'),
+    csv(v('f-area')),
+    csv(v('f-resp')),
+    csv(v('f-email')),
+    csv(v('f-analista-nome')),
+    csv(v('f-analista-email')),
+    csv(v('f-linha')),
+    csv(v('f-prior')),
+    csv(v('f-proc-nome')),
+    csv(v('f-proc-desc')),
+    csv(v('f-inicio')),
+    csv(v('f-fim')),
+    csv(v('f-regras')),
+    csv(sysNomes),
+    csv(sysPerfis),
+    csv(sysTipos),
+    csv(sysBrowser),
+    csv(sysLogin),
+    csv(v('f-ins-tipo')),
+    csv(v('f-ins-local')),
+    csv(v('f-ins-desc')),
+    csv(v('f-vol-med')),
+    csv(v('f-vol-pico')),
+    csv(v('f-vol-mes')),
+    csv(v('f-t-item')),
+    csv(v('f-t-total')),
+    csv(v('f-colabs')),
+    csv(v('f-impacto')),
+    csv(v('f-periodo')),
+    csv(v('f-dias')||'—'),
+    csv(v('f-hora')),
+    csv(v('f-janela')),
+    csv(v('f-gap')),
+    csv(v('f-obs'))
+  ].join(';');
+
+  const bom = '\uFEFF';
+  const content = bom + header + '\r\n' + dataRow + '\r\n';
+
+  const blob = new Blob([content], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  const safeName = v('f-proc-nome').replace(/\s+/g,'_').replace(/[^a-zA-Z0-9_]/g,'').toLowerCase();
+  a.download = `levantamento_rpa_${safeName}_${isoDate}.csv`;
+  a.click();
+}
+
+// ── VENCO ──
+function openVenco(){ window.open(VENCO, '_blank'); }
+
+// ── SUBMIT ──
+function submitForm(){
+  if(!validate()) return;
+  downloadCsv();
+  document.getElementById('success-banner').style.display = 'block';
+  document.getElementById('success-banner').scrollIntoView({behavior:'smooth', block:'start'});
+  setTimeout(()=> openVenco(), 1200);
+}
+
+function resetForm(){ location.reload(); }
+
+// ── INIT ──
+window.addEventListener('DOMContentLoaded', ()=>{
+  const today = new Date();
+  const dd  = String(today.getDate()).padStart(2,'0');
+  const mm  = String(today.getMonth()+1).padStart(2,'0');
+  const yyyy = today.getFullYear();
+  document.getElementById('f-data').value = today.toISOString().slice(0,10);
+  document.getElementById('f-data-display').textContent = `${dd}/${mm}/${yyyy}`;
+  addSys();
+});
+</script>
+</body>
+</html>
